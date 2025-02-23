@@ -1,13 +1,14 @@
-import { Box, Button, Paper, Stack,Grid, Card, CardMedia, CardContent, Typography, LinearProgress, CardHeader, IconButton } from '@mui/material'
+import { Box, Button, Paper, Stack,Grid, Card, CardMedia, CardContent, Typography, LinearProgress, CardHeader, IconButton, Chip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSidePanel } from '../../context/SidePanelContext';
 import CategoryForm from './CategoryForm';
 import AddIcon from '@mui/icons-material/Add';
-import axios from 'axios';
 import EditIcon from '@mui/icons-material/Edit';
 import categoryImage from './img/1.jpg'
 import NoDataPage from './../common/NoDataPage'
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../api/api';
+import { green, orange } from '@mui/material/colors';
 
 const CategoryList = ({configure}) => {
   const {openSidePanel} = useSidePanel()
@@ -26,9 +27,9 @@ const CategoryList = ({configure}) => {
 
   useEffect(() => {
     async function load(){
-      await axios.get('api/categories').then((res)=>{
-        SetCategories(res.data.categories)
-        console.log(res.data.categories)
+      await axiosInstance.get('categories').then((res)=>{
+        SetCategories(res.data.data)
+        console.log(res.data.data)
       }).catch((error)=>{
         console.log(error.response.data.message)
       })
@@ -61,14 +62,12 @@ return (
             <Grid container spacing={2}>
             {categories&&categories.map((category)=>{
               return(
-                category.status==1
-                ?
-                <Grid item key={category.id}>
+                <Grid item key={category._id}>
                   <Card variant='outlined' sx={{width:240}} >
                     <CardHeader
                       action={
                         configure?
-                          <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditCategoryFormOpen(category.id)}>
+                          <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditCategoryFormOpen(category._id)}>
                           <EditIcon fontSize='small'/>
                         </IconButton>
                         :''
@@ -84,14 +83,13 @@ return (
                         />          
                       </Box>        
                     <CardContent>
+                    <Chip  variant='filled' size='small' sx={{color:'white',background: category.status === 1 ? green[400] : orange[400],width:'100%'}} label={category.status === 1 ? 'Active' : 'Inactive'} />
                       <Typography variant="body2" color="text.secondary">
                         {category.description}
                       </Typography>
                     </CardContent>
                   </Card>
                 </Grid>
-                :''
-             
               )
             })
 

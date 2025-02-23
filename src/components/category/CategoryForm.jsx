@@ -1,9 +1,8 @@
 import { Alert, AlertTitle, Box, Button, FormControlLabel, Input, LinearProgress, Paper, Stack, Switch, TextField } from '@mui/material'
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
+import axiosInstance from '../../api/api';
 
 const CategoryForm = ({edit}) => {
   const [data, setData] = useState({
@@ -24,30 +23,17 @@ const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
 };
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
-
-
 useEffect(() => {
     async function load(){
         if(edit){
             setIsLoading(true)
-            await axios.get('/api/category/'+categoryId+'/edit').then((res)=>{
+            await axiosInstance.get('/categories/'+categoryId).then((res)=>{
                 setData({
-                    name:res.data.category.name,
-                    description:res.data.category.description,
-                    imageURL:res.data.category.imageURL,
-                    status:Boolean(res.data.category.status),
-                    remark:res.data.remark
+                    name:res.data.data.name,
+                    description:res.data.data.description,
+                    imageURL:res.data.data.imageURL,
+                    status:Boolean(res.data.data.status),
+                    remark:res.data.data.remark
                 })
             })
             setIsLoading(false)
@@ -60,7 +46,7 @@ useEffect(() => {
         setIsLoading(false)
     }
  
-}, [categoryId])
+}, [categoryId,edit])
 
 
 const submitHandle =(e)=>{
@@ -70,17 +56,17 @@ const submitHandle =(e)=>{
     setResponse('')
     if(edit){
         try{
-            axios.put('/api/category/'+categoryId+'/edit',data).then((res)=>{
+            axiosInstance.put('/categories/'+categoryId,data).then((res)=>{
                 setResponse(res.data.message)
             }).catch(e=>{
-                setError(e.response.data.message)
+                setError(e.response.data)
             })
         }catch(e){
-            setServerError(e.message)
+            setServerError(e.response.data)
         }
     }else{
         try{
-            axios.post('/api/categories',data).then((res)=>{
+              axiosInstance.post('/categories',data).then((res)=>{
                 setResponse(res.data.message)
                 setData({
                   name:'',

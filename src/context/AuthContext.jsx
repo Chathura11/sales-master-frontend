@@ -19,8 +19,8 @@ export function AuthProvider(props){
         await axiosInstance.get('/users/auth').then((res)=>{
             setAuthUser(res.data.data)
             setIsLoggedIn(true)
-        }).catch((error)=>{
-            console.log(error.response.data)
+        }).catch((e)=>{
+            setErrors(e.response)
         });
         
     }
@@ -28,8 +28,8 @@ export function AuthProvider(props){
     useEffect(() => {
         try {
           getUser()
-        } catch (error) {
-          console.log(error.message)
+        } catch (e) {
+            setErrors(e.response)
         }
     }, [])
     
@@ -39,16 +39,13 @@ export function AuthProvider(props){
             await axiosInstance.post('/users/login',data).then((res)=>{
                 console.log(res.data.data)
                 navigate('/contact')
-            }).catch((error)=>{
-                console.log(error.response.data)
+            }).catch((e)=>{
+                setErrors(e.response)
             })
             getUser()
 
         }catch(e){
-            if(e.response.status ===401){
-                setErrors(e.response.data);
-                console.log(e.response.data.message)
-            }
+            setErrors(e.response)
         }
     }
     const logout =async ()=>{
@@ -60,9 +57,7 @@ export function AuthProvider(props){
                 setAuthUser(null)
             })
         }catch(e){
-            if(e.response.status ===422){
-                setErrors(e.response.data.errors);
-            }
+            setErrors(e.response)
         }
     }
 

@@ -59,9 +59,9 @@ const SignIn = () => {
                 onChange={handleTextFields}
                 value={values.password}
               />
-              {errors.message&&
+              {errors.data&&
                 <Alert severity="error">
-                  <AlertTitle>{errors.message}</AlertTitle>
+                  <AlertTitle>{errors.data}</AlertTitle>
                 </Alert>
               }
            </> 
