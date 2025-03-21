@@ -6,6 +6,7 @@ import MainWrapped from "../components/main/MainWrapped";
 import { blue, blueGrey, teal} from "@mui/material/colors";
 import Landing from "./landing/Landing";
 import { AuthProvider } from "../context/AuthContext";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const theme = createTheme({
@@ -53,6 +54,7 @@ function App() {
     <div>
       <ThemeProvider theme={theme}>
         <AuthProvider>
+			<Toaster/>
 			<Routes>
 				<Route exact path="/" element={<Landing/>} />
 				<Route path='/*' element={<MainWrapped/>}/>

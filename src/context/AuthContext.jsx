@@ -1,6 +1,7 @@
 import React,{useState,useContext, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../api/api'; 
+import toast from 'react-hot-toast';
 
 const AuthContext = React.createContext()
 
@@ -20,7 +21,7 @@ export function AuthProvider(props){
             setAuthUser(res.data.data)
             setIsLoggedIn(true)
         }).catch((e)=>{
-            setErrors(e.response)
+            console.log(e.response.data)
         });
         
     }
@@ -29,7 +30,7 @@ export function AuthProvider(props){
         try {
           getUser()
         } catch (e) {
-            setErrors(e.response)
+            console.log(e.response.data)
         }
     }, [])
     
@@ -37,10 +38,11 @@ export function AuthProvider(props){
         setErrors({})
         try{
             await axiosInstance.post('/users/login',data).then((res)=>{
-                console.log(res.data.data)
+                toast.success(res.data.data)
                 navigate('/contact')
             }).catch((e)=>{
-                setErrors(e.response)
+                toast.error(e.response.data.data)
+                setErrors(e.response.data)
             })
             getUser()
 
