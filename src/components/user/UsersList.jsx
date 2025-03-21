@@ -128,7 +128,6 @@ const UsersList = ({authUser,isLoggedIn}) => {
 
           {users&&users.map((det,index)=>{
             return(
-                det.role.role !=="superAdmin" &&
                 <Grid item xs={12} key={det._id}>
                   <Divider />
                   <Stack direction="row">

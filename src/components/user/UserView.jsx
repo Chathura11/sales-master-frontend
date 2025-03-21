@@ -1,4 +1,4 @@
-import {  Box, Chip, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
+import {  Box, Grid, IconButton, Paper, Stack, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
@@ -7,6 +7,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
 import Loader from '../common/Loading';
 import axiosInstance from '../../api/api';
+import Table from '@mui/material/Table';
 
 const UserView = ({authUser,isLoggedIn,profile}) => {
   const [user,setUser] = useState([])
@@ -105,14 +106,23 @@ const UserView = ({authUser,isLoggedIn,profile}) => {
                   </Stack>
                   <Grid container spacing={2} sx={{textAlign:'center'}}>
                     <Grid item xs={12}>
-                        <Typography variant='p'>Permissions</Typography>
-                        <br/>
                         <Stack spacing={1}>
-                        {user.permissions&&user.permissions.map((permission)=>{
-                          return(
-                            <Chip key={permission}  variant='filled' size='small' sx={{color:'white',background:blueGrey[400],width:'100%'}} label={permission} />
-                          )
-                        })}
+                        <TableContainer component={Paper}>
+                          <Table style={{color:'white',backgroundColor:'#263238'}} sx={{ minWidth: 650}} aria-label="simple table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell sx={{textAlign:'center',color:'white'}}>Permissions</TableCell>
+                              </TableRow>
+                          </TableHead>
+                          {user.permissions&&user.permissions.map((permission)=>{
+                            return(
+                              <TableRow key={permission} sx={{ '&:last-child td, &:last-child th': { border: 0 }}}>
+                                <TableCell>{permission}</TableCell>
+                              </TableRow>
+                            )
+                          })}
+                          </Table>
+                        </TableContainer>
                       </Stack>
                     </Grid>
                   </Grid>
