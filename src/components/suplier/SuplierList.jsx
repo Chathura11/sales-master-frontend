@@ -116,8 +116,9 @@ const SuplierList = ({configure}) => {
     useEffect(() => {
       async function load(){
   
-        await axiosInstance.get('/api/supliers').then((res)=>{
-            setRows(res.data.supliers)
+        await axiosInstance.get('/suppliers').then((res)=>{
+            setRows(res.data.data)
+            console.log(res.data.data)
           }).catch((error)=>{
             console.log(error.response.data.message)
           })

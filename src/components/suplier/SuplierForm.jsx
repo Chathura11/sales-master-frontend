@@ -2,7 +2,7 @@ import { Alert, AlertTitle, Box, Button, FormControlLabel, Input, LinearProgress
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 
 const SuplierForm = ({edit}) => {
@@ -35,17 +35,17 @@ const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
 };
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
+// const VisuallyHiddenInput = styled('input')({
+//   clip: 'rect(0 0 0 0)',
+//   clipPath: 'inset(50%)',
+//   height: 1,
+//   overflow: 'hidden',
+//   position: 'absolute',
+//   bottom: 0,
+//   left: 0,
+//   whiteSpace: 'nowrap',
+//   width: 1,
+// });
 
 
 useEffect(() => {
@@ -81,7 +81,7 @@ useEffect(() => {
         setIsLoading(false)
     }
  
-}, [suplierId])
+}, [suplierId,edit])
 
 
 const submitHandle =(e)=>{
