@@ -67,16 +67,16 @@ const SystemSettingsForm = () => {
       setIsLoading(true)
       await axiosInstance.get('/api/content-config').then((res)=>{
         setData({
-          slevel1_isActive:res.data.content_configuration.slevel1_isActive == 0?false:true,
+          slevel1_isActive:res.data.content_configuration.slevel1_isActive === 0?false:true,
           slevel1Name:res.data.content_configuration.slevel1Name?res.data.content_configuration.slevel1Name:'',
-          slevel2_isActive:res.data.content_configuration.slevel2_isActive == 0?false:true,
+          slevel2_isActive:res.data.content_configuration.slevel2_isActive === 0?false:true,
           slevel2Name:res.data.content_configuration.slevel2Name?res.data.content_configuration.slevel2Name:'',
-          extension_isActive:res.data.content_configuration.extension_isActive == 0?false:true,
-          note_isActive:res.data.content_configuration.note_isActive == 0?false:true,
-          landNumber_isActive:res.data.content_configuration.landNumber_isActive == 0?false:true,
-          mobileNumber_isActive:res.data.content_configuration.mobileNumber_isActive == 0?false:true,
-          email_isActive:res.data.content_configuration.email_isActive == 0?false:true,
-          designation_isActive:res.data.content_configuration.designation_isActive == 0?false:true,
+          extension_isActive:res.data.content_configuration.extension_isActive === 0?false:true,
+          note_isActive:res.data.content_configuration.note_isActive === 0?false:true,
+          landNumber_isActive:res.data.content_configuration.landNumber_isActive === 0?false:true,
+          mobileNumber_isActive:res.data.content_configuration.mobileNumber_isActive === 0?false:true,
+          email_isActive:res.data.content_configuration.email_isActive === 0?false:true,
+          designation_isActive:res.data.content_configuration.designation_isActive === 0?false:true,
         })
         setIsLoading(false)
       }).catch((error)=>{

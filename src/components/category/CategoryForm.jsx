@@ -57,7 +57,7 @@ const submitHandle =(e)=>{
     if(edit){
         try{
             axiosInstance.put('/categories/'+categoryId,data).then((res)=>{
-                setResponse(res.data.message)
+                setResponse("Category Updated Successfully!")
             }).catch(e=>{
                 setError(e.response.data)
             })

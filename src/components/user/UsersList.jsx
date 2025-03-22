@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import UserForm from './UserForm';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import axiosInstance from '../../api/api';
+import toast from 'react-hot-toast';
 
 const UsersList = ({authUser,isLoggedIn}) => {
   const [users,setUsers] = useState([])
@@ -52,7 +53,7 @@ const UsersList = ({authUser,isLoggedIn}) => {
   const deleteButtonHandle=(e,id)=>{
     e.preventDefault();
     axiosInstance.delete('/users/delete/'+id).then((res)=>{
-      console.log(res.data.message)
+      toast.success(res.data.message);
       setIsLoading(false)
       setOpen(false)
       let newUsers=[]
