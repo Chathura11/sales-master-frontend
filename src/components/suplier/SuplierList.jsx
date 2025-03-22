@@ -49,10 +49,9 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="right">{row.contact_name}</TableCell>
-        <TableCell align="right">{row.contact_phone}</TableCell>
-        <TableCell align="right">{row.city}</TableCell>
-        <TableCell align="center">{row.status}</TableCell>
+        <TableCell align="right">{row.phone}</TableCell>
+        <TableCell align="right">{row.nic}</TableCell>
+        <TableCell align="center">{row.status?"Active":"Inactive"}</TableCell>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -75,16 +74,12 @@ function Row(props) {
                   <TableRow>
                     <TableCell>Email</TableCell>
                     <TableCell>Address</TableCell>
-                    <TableCell>Province</TableCell>
-                    <TableCell>Country</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
-                      <TableCell>{row.contact_email}</TableCell>
+                      <TableCell>{row.email}</TableCell>
                       <TableCell>{row.address}</TableCell>
-                      <TableCell>{row.province}</TableCell>
-                      <TableCell>{row.country}</TableCell>
                     </TableRow>
                 </TableBody>
               </Table>
@@ -154,9 +149,8 @@ const SuplierList = ({configure}) => {
                   <TableRow>
                     <TableCell />
                     <TableCell>Suplier Name</TableCell>
-                    <TableCell align="right">Contact Name</TableCell>
                     <TableCell align="right">Contact Phone</TableCell>
-                    <TableCell align="right">City</TableCell>
+                    <TableCell align="right">NIC</TableCell>
                     <TableCell align="center">Status</TableCell>
                   </TableRow>
                 </TableHead>

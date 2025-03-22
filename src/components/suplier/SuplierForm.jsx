@@ -1,31 +1,23 @@
 import { Alert, AlertTitle, Box, Button, FormControlLabel, Input, LinearProgress, Paper, Stack, Switch, TextField } from '@mui/material'
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // import { styled } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
+import axiosInstance from '../../api/api';
 
 const SuplierForm = ({edit}) => {
   const [data, setData] = useState({
     name:'',
-    contact_name:'',
-    contact_email:'',
-    contact_phone:'',
+    nic:'',
+    email:'',
+    phone:'',
     address:'',
-    city:'',
-    province:'',
-    zip_code:'',
-    country:'',
-    tax_id:'',
     payment_term:'',
     credit_limit:'',
-    note:'',
     status:true,
-    remark:''
+    imageURL:''
   });
   
-
-const [error,setError] = useState('')
 const {suplierId} = useParams();
 const [response,setResponse] = useState('')
 const [isLoading, setIsLoading] = useState(false);
@@ -52,23 +44,17 @@ useEffect(() => {
     async function load(){
         if(edit){
             setIsLoading(true)
-            await axios.get('/api/suplier/'+suplierId+'/edit').then((res)=>{
+            await axiosInstance.get('/api/suplier/'+suplierId+'/edit').then((res)=>{
                 setData({
                   name:res.data.suplier.name,
-                  contact_name:res.data.suplier.contact_name,
-                  contact_email:res.data.suplier.contact_email,
-                  contact_phone:res.data.suplier.contact_phone,
+                  nic:res.data.suplier.nic,
+                  email:res.data.suplier.contact_email,
+                  phone:res.data.suplier.contact_phone,
                   address:res.data.suplier.address,
-                  city:res.data.suplier.city,
-                  province:res.data.suplier.province,
-                  zip_code:res.data.suplier.zip_code,
-                  country:res.data.suplier.country,
-                  tax_id:res.data.suplier.tax_id,
                   payment_term:res.data.suplier.payment_term,
                   credit_limit:res.data.suplier.credit_limit,
-                  note:res.data.suplier.note,
                   status:Boolean(res.data.suplier.status),
-                  remark:res.data.suplier.remark
+                  imageURL:res.data.suplier.imageURL,
                 })
             })
             setIsLoading(false)
@@ -86,46 +72,38 @@ useEffect(() => {
 
 const submitHandle =(e)=>{
     e.preventDefault()
-    setError('')
     setServerError('')
     setResponse('')
     if(edit){
         try{
-            axios.put('/api/suplier/'+suplierId+'/edit',data).then((res)=>{
+            axiosInstance.put('/supplier/'+suplierId+'/edit',data).then((res)=>{
                 setResponse(res.data.message)
             }).catch(e=>{
-                setError(e.response.data.message)
-                console.log(e.response.data.message)
+                setServerError(e.response.data.data)
             })
         }catch(e){
-            setServerError(e.message)
+          console.log(e.response)
         }
     }else{
         try{
-            axios.post('/api/supliers',data).then((res)=>{
+              axiosInstance.post('/suppliers',data).then((res)=>{
                 setResponse(res.data.message)
                 setData({
                   name:'',
-                  contact_name:'',
-                  contact_email:'',
-                  contact_phone:'',
+                  nic:'',
+                  email:'',
+                  phone:'',
                   address:'',
-                  city:'',
-                  province:'',
-                  zip_code:'',
-                  country:'',
-                  tax_id:'',
                   payment_term:'',
                   credit_limit:'',
-                  note:'',
                   status:true,
-                  remark:''
+                  imageURL:''
                 })
             }).catch((e)=>{
-                setError(e.response.data.message)
+                setServerError(e.response.data.data)
             })
         }catch(e){
-            setServerError(e.message)
+            console.log(e.response)
         }
     }
 }
@@ -138,40 +116,38 @@ return (
         <form onSubmit={submitHandle}>
           <Stack spacing={2}>
             <TextField
-              error={error.name ? true : false}
               label="Name"
               variant="outlined"
               name="name"
-              helperText={error.name || ''}
               onChange={handleChange}
               value={data.name || ''}
               size='small'
               // required
             />
             <TextField
-              label="Contact Name"
+              label="NIC"
               variant="outlined"
-              name="contact_name"
+              name="nic"
               onChange={handleChange}
-              value={data.contact_name || ''}
+              value={data.nic || ''}
               size='small'
               // required
             />
             <TextField
-              label="Contact Email"
+              label="Email"
               variant="outlined"
-              name="contact_email"
+              name="email"
               onChange={handleChange}
-              value={data.contact_email || ''}
+              value={data.email || ''}
               size='small'
               // required
             />
             <TextField
-              label="Contact Phone"
+              label="Phone"
               variant="outlined"
-              name="contact_phone"
+              name="phone"
               onChange={handleChange}
-              value={data.contact_phone || ''}
+              value={data.phone || ''}
               size='small'
               // required
             />
@@ -181,51 +157,6 @@ return (
               name="address"
               onChange={handleChange}
               value={data.address || ''}
-              size='small'
-              // required
-            />
-            <TextField
-              label="City"
-              variant="outlined"
-              name="city"
-              onChange={handleChange}
-              value={data.city || ''}
-              size='small'
-              // required
-            />
-            <TextField
-              label="Province"
-              variant="outlined"
-              name="province"
-              onChange={handleChange}
-              value={data.province || ''}
-              size='small'
-              // required
-            />
-            <TextField
-              label="Zip Code"
-              variant="outlined"
-              name="zip_code"
-              onChange={handleChange}
-              value={data.zip_code || ''}
-              size='small'
-              // required
-            />
-            <TextField
-              label="Country"
-              variant="outlined"
-              name="country"
-              onChange={handleChange}
-              value={data.country || ''}
-              size='small'
-              // required
-            />
-            <TextField
-              label="Tax Id"
-              variant="outlined"
-              name="tax_id"
-              onChange={handleChange}
-              value={data.tax_id || ''}
               size='small'
               // required
             />
@@ -244,15 +175,6 @@ return (
               name="credit_limit"
               onChange={handleChange}
               value={data.credit_limit || ''}
-              size='small'
-              // required
-            />
-            <TextField
-              label="Note"
-              variant="outlined"
-              name="note"
-              onChange={handleChange}
-              value={data.note || ''}
               size='small'
               // required
             />

@@ -17,7 +17,7 @@ const SuplierIndex = ({isLoggedIn,authUser,configure}) => {
     }
   return (
     <Stack style={stackStyle} spacing={2}>
-        <MainHeader tag={'Supliers'} icon={<AccountBoxOutlinedIcon  sx={{width: 40, height: 40}}/>}/>  
+        <MainHeader tag={'Suppliers'} icon={<AccountBoxOutlinedIcon  sx={{width: 40, height: 40}}/>}/>  
         <Paper style={paperStyle} elevation={0}>
             {isLoggedIn&&authUser&&
                 <Routes>

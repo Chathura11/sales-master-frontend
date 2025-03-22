@@ -51,7 +51,7 @@ const AdminPanelIndex = ({isLoggedIn,authUser}) => {
                 <BottomNavigationAction label="Users" icon={<AccountCircleIcon/>}/>
                 <BottomNavigationAction label="Brands" icon={<StyleOutlinedIcon/>}/>
                 <BottomNavigationAction label="Categories" icon={<TableViewOutlinedIcon/>}/>
-                <BottomNavigationAction label="Supliers" icon={<AccountBoxOutlinedIcon/>}/>
+                <BottomNavigationAction label="Suppliers" icon={<AccountBoxOutlinedIcon/>}/>
                 <BottomNavigationAction label="Products" icon={<ListAltOutlinedIcon/>}/>
                 <BottomNavigationAction label="Settings" icon={<SettingsIcon/>}/>
               </BottomNavigation>

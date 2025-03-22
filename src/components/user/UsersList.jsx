@@ -149,7 +149,7 @@ const UsersList = ({authUser,isLoggedIn}) => {
                           <Typography variant='p' sx={{color:blueGrey[900]}}>{det.email}</Typography>
                         </Grid>
                         <Grid item xs sx={{alignSelf:'center'}}>
-                        <Typography variant='p' sx={{color:blueGrey[900]}}>{det.username.toUpperCase()}</Typography>
+                        <Typography variant='p' sx={{color:blueGrey[900]}}>{det.username}</Typography>
                         </Grid>
                       </Grid>
                     
