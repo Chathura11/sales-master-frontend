@@ -68,7 +68,7 @@ const BrandForm = ({edit}) => {
         }else{
             try{
                 axiosInstance.post('/brands',data).then((res)=>{
-                    setResponse(res.data.message)
+                    setResponse("Brand created Successfully!")
                     setData({
                       name:'',
                       description:'',

@@ -81,7 +81,7 @@ const BrandList = ({configure}) => {
                           />          
                         </Box>        
                       <CardContent>
-                      <Chip  variant='filled' size='small' sx={{color:'white',background: brand.status === 1 ? green[400] : orange[400],width:'100%'}} label={brand.status === 1 ? 'Active' : 'Inactive'} />
+                      <Chip  variant='filled' size='small' sx={{color:'white',background: brand.status === true ? green[400] : orange[400],width:'100%'}} label={brand.status === 1 ? 'Active' : 'Inactive'} />
                         <Typography variant="body2" color="text.secondary">
                           {brand.description}
                         </Typography>

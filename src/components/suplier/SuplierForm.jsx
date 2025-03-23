@@ -1,19 +1,21 @@
-import { Alert, AlertTitle, Box, Button, FormControlLabel, Input, LinearProgress, Paper, Stack, Switch, TextField } from '@mui/material'
+import { Alert, AlertTitle, Box, Button, FormControl, FormControlLabel, Input, InputLabel, LinearProgress, MenuItem, Paper, Select, Stack, Switch, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-// import { styled } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axiosInstance from '../../api/api';
 
 const SuplierForm = ({edit}) => {
+
+  const location = useLocation();
+
   const [data, setData] = useState({
     name:'',
     nic:'',
     email:'',
     phone:'',
     address:'',
-    payment_term:'',
-    credit_limit:'',
+    paymentTerm:'',
+    creditLimit:'',
     status:true,
     imageURL:''
   });
@@ -22,43 +24,31 @@ const {suplierId} = useParams();
 const [response,setResponse] = useState('')
 const [isLoading, setIsLoading] = useState(false);
 const [serverError,setServerError] = useState('')
+const [payterms,setPayterms] = useState([]);
 
 const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
 };
 
-// const VisuallyHiddenInput = styled('input')({
-//   clip: 'rect(0 0 0 0)',
-//   clipPath: 'inset(50%)',
-//   height: 1,
-//   overflow: 'hidden',
-//   position: 'absolute',
-//   bottom: 0,
-//   left: 0,
-//   whiteSpace: 'nowrap',
-//   width: 1,
-// });
-
-
 useEffect(() => {
     async function load(){
-        if(edit){
-            setIsLoading(true)
-            await axiosInstance.get('/api/suplier/'+suplierId+'/edit').then((res)=>{
-                setData({
-                  name:res.data.suplier.name,
-                  nic:res.data.suplier.nic,
-                  email:res.data.suplier.contact_email,
-                  phone:res.data.suplier.contact_phone,
-                  address:res.data.suplier.address,
-                  payment_term:res.data.suplier.payment_term,
-                  credit_limit:res.data.suplier.credit_limit,
-                  status:Boolean(res.data.suplier.status),
-                  imageURL:res.data.suplier.imageURL,
-                })
-            })
-            setIsLoading(false)
-        }
+      await axiosInstance.get('/payterms').then((res)=>{
+        setPayterms(res.data.data)
+      }) 
+
+      if(edit){
+        setData({
+          name:location.state.name,
+          nic:location.state.nic,
+          email:location.state.email,
+          phone:location.state.phone,
+          address:location.state.address,
+          paymentTerm:location.state.paymentTerm?._id?location.state.paymentTerm?._id:'',
+          creditLimit:location.state.creditLimit,
+          status:location.state.status,
+          imageURL:location.state.imageURL
+        })
+      }
     }
     try{
         load()
@@ -67,7 +57,11 @@ useEffect(() => {
         setIsLoading(false)
     }
  
-}, [suplierId,edit])
+}, [suplierId,edit,location.state])
+
+const handlePayTermChange = (event) => {
+  setData({ ...data, paymentTerm: event.target.value });
+};
 
 
 const submitHandle =(e)=>{
@@ -76,8 +70,8 @@ const submitHandle =(e)=>{
     setResponse('')
     if(edit){
         try{
-            axiosInstance.put('/supplier/'+suplierId+'/edit',data).then((res)=>{
-                setResponse(res.data.message)
+            axiosInstance.put('/suppliers/'+suplierId,data).then((res)=>{
+                setResponse("Supplier updated successfully!")
             }).catch(e=>{
                 setServerError(e.response.data.data)
             })
@@ -87,15 +81,15 @@ const submitHandle =(e)=>{
     }else{
         try{
               axiosInstance.post('/suppliers',data).then((res)=>{
-                setResponse(res.data.message)
+                setResponse("Supplier added successfully!");
                 setData({
                   name:'',
                   nic:'',
                   email:'',
                   phone:'',
                   address:'',
-                  payment_term:'',
-                  credit_limit:'',
+                  paymentTerm:'',
+                  creditLimit:'',
                   status:true,
                   imageURL:''
                 })
@@ -160,21 +154,31 @@ return (
               size='small'
               // required
             />
-            <TextField
-              label="Payment Term"
-              variant="outlined"
-              name="payment_term"
-              onChange={handleChange}
-              value={data.payment_term || ''}
-              size='small'
-              // required
-            />
+            <Box sx={{ width: 200 }}>
+                <FormControl fullWidth>
+                  <InputLabel>Payment Term</InputLabel>
+                  <Select
+                    value={data.paymentTerm}
+                    label="paymentTerm"
+                    onChange={handlePayTermChange}
+                    size='small'
+                  >
+                    {payterms&& payterms.map((payterm)=>{
+                      return(
+                        <MenuItem key={payterm._id} value={payterm._id}>{payterm.description}</MenuItem>
+                      )
+                    })}
+                    
+                    
+                  </Select>
+                </FormControl>
+              </Box>
             <TextField
               label="Credit Limit"
               variant="outlined"
-              name="credit_limit"
+              name="creditLimit"
               onChange={handleChange}
-              value={data.credit_limit || ''}
+              value={data.creditLimit || ''}
               size='small'
               // required
             />

@@ -30,8 +30,8 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate()
-  const handleClickEditBrandFormOpen = (suplierId) => {
-    navigate('/admin-panel/suplier/edit/'+suplierId);
+  const handleClickEditFormOpen = (supplier) => {
+    navigate('/admin-panel/suplier/edit/'+supplier._id,{state:supplier});
   };
 
   return (
@@ -56,7 +56,7 @@ function Row(props) {
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={()=>handleClickEditBrandFormOpen(row.id)}
+            onClick={()=>handleClickEditFormOpen(row)}
           >
             <EditIcon fontSize='inherit'/>
           </IconButton>
@@ -72,12 +72,16 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
+                    <TableCell>Payment Term</TableCell>
+                    <TableCell>Credit Limit</TableCell>
                     <TableCell>Email</TableCell>
                     <TableCell>Address</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
+                      <TableCell>{row.paymentTerm?.description || ''}</TableCell>
+                      <TableCell>{row.creditLimit}</TableCell>
                       <TableCell>{row.email}</TableCell>
                       <TableCell>{row.address}</TableCell>
                     </TableRow>
@@ -93,9 +97,9 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    contact_name: PropTypes.string.isRequired,
-    contact_email: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    nic: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -104,7 +108,7 @@ const SuplierList = ({configure}) => {
     const {openSidePanel} = useSidePanel()
     const [isLoading, setIsLoading] = useState(true); 
 
-    const handleClickBrandFormOpen = () => {
+    const handleClickFormOpen = () => {
       openSidePanel("ADD NEW SUPLIER",<SuplierForm/>)
     };
   
@@ -132,7 +136,7 @@ const SuplierList = ({configure}) => {
         <Stack spacing={2}>
           <Box sx={{textAlign:'end'}}>
             {configure
-              ?<Button variant='contained' size='small' onClick={handleClickBrandFormOpen}><AddIcon/>Add New Suplier</Button>
+              ?<Button variant='contained' size='small' onClick={handleClickFormOpen}><AddIcon/>Add New Suplier</Button>
               :''
             }
           </Box>
@@ -149,7 +153,7 @@ const SuplierList = ({configure}) => {
                   <TableRow>
                     <TableCell />
                     <TableCell>Suplier Name</TableCell>
-                    <TableCell align="right">Contact Phone</TableCell>
+                    <TableCell align="right">Phone</TableCell>
                     <TableCell align="right">NIC</TableCell>
                     <TableCell align="center">Status</TableCell>
                   </TableRow>

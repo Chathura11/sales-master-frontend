@@ -83,7 +83,7 @@ return (
                         />          
                       </Box>        
                     <CardContent>
-                    <Chip  variant='filled' size='small' sx={{color:'white',background: category.status === 1 ? green[400] : orange[400],width:'100%'}} label={category.status === 1 ? 'Active' : 'Inactive'} />
+                    <Chip  variant='filled' size='small' sx={{color:'white',background: category.status === true ? green[400] : orange[400],width:'100%'}} label={category.status === 1 ? 'Active' : 'Inactive'} />
                       <Typography variant="body2" color="text.secondary">
                         {category.description}
                       </Typography>

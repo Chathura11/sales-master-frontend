@@ -67,7 +67,7 @@ const submitHandle =(e)=>{
     }else{
         try{
               axiosInstance.post('/categories',data).then((res)=>{
-                setResponse(res.data.message)
+                setResponse("Category created Successfully!")
                 setData({
                   name:'',
                   description:'',

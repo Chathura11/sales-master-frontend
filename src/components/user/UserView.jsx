@@ -1,4 +1,4 @@
-import {  Box, Grid, IconButton, Paper, Stack, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import {  Box, Grid, IconButton, Paper, Stack, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
@@ -114,13 +114,15 @@ const UserView = ({authUser,isLoggedIn,profile}) => {
                                 <TableCell sx={{textAlign:'center',color:'white'}}>Permissions</TableCell>
                               </TableRow>
                           </TableHead>
+                          <TableBody>
                           {user.permissions&&user.permissions.map((permission)=>{
                             return(
                               <TableRow key={permission} sx={{ '&:last-child td, &:last-child th': { border: 0 }}}>
-                                <TableCell>{permission}</TableCell>
+                                <TableCell sx={{color:'white'}}>{permission}</TableCell>
                               </TableRow>
                             )
                           })}
+                          </TableBody>
                           </Table>
                         </TableContainer>
                       </Stack>
