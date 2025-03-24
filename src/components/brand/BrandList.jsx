@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Stack,Grid, Card, CardMedia, CardContent, Typography, LinearProgress, CardHeader, IconButton, Chip } from '@mui/material'
+import { Box, Button, Paper, Stack,Grid, Card, CardMedia, CardContent, LinearProgress, CardHeader, IconButton, Chip, CardActionArea, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSidePanel } from '../../context/SidePanelContext';
 import BrandForm from './BrandForm';
@@ -40,6 +40,10 @@ const BrandList = ({configure}) => {
         console.log(e.message)
       }
     }, [])
+
+    function handleCardClick(data){
+      console.log(data);
+    }
     
   return (
     <Paper elevation={0} sx={{padding:2}}>
@@ -60,9 +64,12 @@ const BrandList = ({configure}) => {
               <Grid container spacing={2}>
               {brands&&brands.map((brand)=>{
                 return(
+                  !configure ?
+                  brand.status === true &&
                   <Grid item key={brand._id}>
-                    <Card variant='outlined' sx={{width:240}} >
-                      <CardHeader
+                    <CardActionArea onClick={() => handleCardClick(brand)}>
+                    <Card variant='outlined' sx={{width:240}}>
+                      <CardHeader sx={{height:100}}
                         action={
                           configure?
                             <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditBrandFormOpen(brand)}>
@@ -71,7 +78,7 @@ const BrandList = ({configure}) => {
                           :''
                         }
                         title={brand.name}
-                        subheader="products count"
+                        subheader={brand.description}
                       />                   
                         <Box sx={{display:'flex',justifyContent:'center'}}> 
                           <CardMedia
@@ -81,9 +88,38 @@ const BrandList = ({configure}) => {
                           />          
                         </Box>        
                       <CardContent>
-                      <Chip  variant='filled' size='small' sx={{color:'white',background: brand.status === true ? green[400] : orange[400],width:'100%'}} label={brand.status === 1 ? 'Active' : 'Inactive'} />
-                        <Typography variant="body2" color="text.secondary">
-                          {brand.description}
+                        <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
+                          product count
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                    </CardActionArea>
+                  </Grid>
+                  :
+                  <Grid item key={brand._id}>
+                    <Card variant='outlined' sx={{width:240}}>
+                      <CardHeader sx={{height:100}}
+                        action={
+                          configure?
+                            <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditBrandFormOpen(brand)}>
+                              <EditIcon fontSize='small'/>
+                            </IconButton>
+                          :''
+                        }
+                        title={brand.name}
+                        subheader={brand.description}
+                      />                   
+                        <Box sx={{display:'flex',justifyContent:'center'}}> 
+                          <CardMedia
+                            component="img"
+                            sx={{ height: 100, objectFit: 'contain',padding:1}}
+                            image={brand.imageURL?brand.imageURL:brandImage}
+                          />          
+                        </Box>        
+                      <CardContent>
+                        <Chip size='small' sx={{color:'white',background: brand.status === true ? green[400] : orange[400],width:'100%'}} label={brand.status === true ? 'Active' : 'Inactive'} />
+                        <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
+                          product count
                         </Typography>
                       </CardContent>
                     </Card>

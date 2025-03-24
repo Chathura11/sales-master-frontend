@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Stack,Grid, Card, CardMedia, CardContent, Typography, LinearProgress, CardHeader, IconButton, Chip } from '@mui/material'
+import { Box, Button, Paper, Stack,Grid, Card, CardMedia, CardContent, Typography, LinearProgress, CardHeader, IconButton, Chip, CardActionArea } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSidePanel } from '../../context/SidePanelContext';
 import CategoryForm from './CategoryForm';
@@ -42,6 +42,10 @@ const CategoryList = ({configure}) => {
       console.log(e.message)
     }
   }, [])
+
+  function handleCardClick(data){
+    console.log(data);
+  }
   
 return (
   <Paper elevation={0} sx={{padding:2}}>
@@ -62,9 +66,12 @@ return (
             <Grid container spacing={2}>
             {categories&&categories.map((category)=>{
               return(
+                !configure ?
+                category.status === true &&
                 <Grid item key={category._id}>
+                  <CardActionArea onClick={() => handleCardClick(category)}>
                   <Card variant='outlined' sx={{width:240}} >
-                    <CardHeader
+                    <CardHeader sx={{height:100}}
                       action={
                         configure?
                           <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditCategoryFormOpen(category)}>
@@ -73,7 +80,7 @@ return (
                         :''
                       }
                       title={category.name}
-                      subheader="products count"
+                      subheader={category.description}
                     />                   
                       <Box sx={{display:'flex',justifyContent:'center'}}> 
                         <CardMedia
@@ -83,9 +90,38 @@ return (
                         />          
                       </Box>        
                     <CardContent>
-                    <Chip  variant='filled' size='small' sx={{color:'white',background: category.status === true ? green[400] : orange[400],width:'100%'}} label={category.status === 1 ? 'Active' : 'Inactive'} />
-                      <Typography variant="body2" color="text.secondary">
-                        {category.description}
+                      <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
+                        product count
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                  </CardActionArea>
+                </Grid>
+                :
+                <Grid item key={category._id}>
+                  <Card variant='outlined' sx={{width:240}} >
+                    <CardHeader sx={{height:100}}
+                      action={
+                        configure?
+                          <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditCategoryFormOpen(category)}>
+                          <EditIcon fontSize='small'/>
+                        </IconButton>
+                        :''
+                      }
+                      title={category.name}
+                      subheader={category.description}
+                    />                   
+                      <Box sx={{display:'flex',justifyContent:'center'}}> 
+                        <CardMedia
+                          component="img"
+                          sx={{ height: 100, objectFit: 'contain',padding:1}}
+                          image={category.imageURL?category.imageURL:categoryImage}
+                        />          
+                      </Box>        
+                    <CardContent>
+                    <Chip  variant='filled' size='small' sx={{color:'white',background: category.status === true ? green[400] : orange[400],width:'100%'}} label={category.status === true ? 'Active' : 'Inactive'} />
+                      <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
+                        product count
                       </Typography>
                     </CardContent>
                   </Card>
