@@ -53,8 +53,9 @@ function Content(){
                         <Grid container style={{ marginTop: '72px' }}>
                             <Grid item xs={12} sx={{ mt: '32px' }}>
                                 <Box>
-                                    <Typography sx={{color:'white',fontSize:'50px'}}>Point Of Sales System</Typography>
-                                    <Typography sx={{color:'white',marginBottom:4,fontSize:'25px'}}>Make your sales properly</Typography>
+                                    <Typography sx={{color:'white',fontSize:'50px'}}>Sales Master</Typography>
+                                    <Typography sx={{color:'white',marginBottom:0,marginTop:0,fontSize:'25px'}}>Point of sales system</Typography>
+                                    <Typography sx={{color:'white',marginBottom:4,fontSize:'15px'}}>Make your sales properly</Typography>
                                     <Stack direction='row' spacing={2} sx={{alignItems:'center'}}>
                                         <Paper elevation={0} sx={{width:'600px',padding:'30px'}}>
                                             <SignIn/>

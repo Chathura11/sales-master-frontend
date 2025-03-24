@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { Paper, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import React from 'react'
 import MainHeader from '../main/MainHeader'
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
@@ -11,21 +11,15 @@ const SuplierIndex = ({isLoggedIn,authUser,configure}) => {
         margin:'20px 0',
     }
 
-    const paperStyle={
-        padding:'20px',
-        background:"#FFFFFF77"
-    }
   return (
     <Stack style={stackStyle} spacing={2}>
         <MainHeader tag={'Suppliers'} icon={<AccountBoxOutlinedIcon  sx={{width: 40, height: 40}}/>}/>  
-        <Paper style={paperStyle} elevation={0}>
             {isLoggedIn&&authUser&&
                 <Routes>
                     <Route path='/' element={<SuplierList authUser={authUser} configure={configure}/>}></Route>
                     <Route path='/suplier/edit/:suplierId' element={<SuplierForm edit={true}/>}></Route>
                 </Routes>
             }
-        </Paper> 
     </Stack>
   )
 }

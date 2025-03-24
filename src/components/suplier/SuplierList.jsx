@@ -46,9 +46,8 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
+        <TableCell component="th" scope="row">{row.name}</TableCell>
+        <TableCell component="th" scope="row">{row.contactName}</TableCell>
         <TableCell align="right">{row.phone}</TableCell>
         <TableCell align="right">{row.nic}</TableCell>
         <TableCell align="center">{row.status?"Active":"Inactive"}</TableCell>
@@ -119,7 +118,7 @@ const SuplierList = ({configure}) => {
             setRows(res.data.data)
             console.log(res.data.data)
           }).catch((error)=>{
-            console.log(error.response.data.message)
+            console.log(error.response.data.data)
           })
         setIsLoading(false)
       }
@@ -153,6 +152,7 @@ const SuplierList = ({configure}) => {
                   <TableRow>
                     <TableCell />
                     <TableCell>Suplier Name</TableCell>
+                    <TableCell>Contact Name</TableCell>
                     <TableCell align="right">Phone</TableCell>
                     <TableCell align="right">NIC</TableCell>
                     <TableCell align="center">Status</TableCell>

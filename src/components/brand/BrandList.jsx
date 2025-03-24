@@ -18,8 +18,8 @@ const BrandList = ({configure}) => {
     };
     const navigate = useNavigate()
 
-    const handleClickEditBrandFormOpen = (brandId) => {
-      navigate('/admin-panel/brand/edit/'+brandId);
+    const handleClickEditBrandFormOpen = (brand) => {
+      navigate('/admin-panel/brand/edit/'+brand._id,{state:brand});
     };
 
     const [brands,setBrands] = useState([])
@@ -65,7 +65,7 @@ const BrandList = ({configure}) => {
                       <CardHeader
                         action={
                           configure?
-                            <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditBrandFormOpen(brand._id)}>
+                            <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditBrandFormOpen(brand)}>
                               <EditIcon fontSize='small'/>
                             </IconButton>
                           :''

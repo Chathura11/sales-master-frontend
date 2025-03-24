@@ -1,10 +1,12 @@
 import { Alert, AlertTitle, Box, Button, FormControlLabel, Input, LinearProgress, Paper, Stack, Switch, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axiosInstance from '../../api/api';
 
 const BrandForm = ({edit}) => {
+    const location = useLocation();
+
     const [data, setData] = useState({
         name:'',
         description:'',
@@ -27,14 +29,12 @@ const BrandForm = ({edit}) => {
         async function load(){
             if(edit){
                 setIsLoading(true)
-                await axiosInstance.get('/brands/'+brandId).then((res)=>{
-                    setData({
-                        name:res.data.data.name,
-                        description:res.data.data.description,
-                        imageURL:res.data.data.imageURL,
-                        status:Boolean(res.data.data.status),
-                        remark:res.data.data.remark
-                    })
+                setData({
+                  name:location.state.name,
+                  description:location.state.description,
+                  imageURL:location.state.imageURL,
+                  status:location.state.status,
+                  remark:location.state.remark
                 })
                 setIsLoading(false)
             }
@@ -46,7 +46,7 @@ const BrandForm = ({edit}) => {
             setIsLoading(false)
         }
      
-    }, [brandId,edit])
+    }, [brandId,edit,location.state])
     
 
     const submitHandle =(e)=>{

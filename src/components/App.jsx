@@ -27,8 +27,11 @@ function App() {
 			secondary: {
 				main: '#FF4136',
 			},
+			accent:{
+				main: '#0074D9',
+			},
 			textColor: {
-				main: '#333333',
+				main: '#FFFFFF',
 			},
 			neutral:{
 				main:'#DDDDDD',

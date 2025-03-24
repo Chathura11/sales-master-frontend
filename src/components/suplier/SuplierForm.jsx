@@ -10,6 +10,7 @@ const SuplierForm = ({edit}) => {
 
   const [data, setData] = useState({
     name:'',
+    contactName:'',
     nic:'',
     email:'',
     phone:'',
@@ -39,6 +40,7 @@ useEffect(() => {
       if(edit){
         setData({
           name:location.state.name,
+          contactName:location.state.contactName,
           nic:location.state.nic,
           email:location.state.email,
           phone:location.state.phone,
@@ -84,6 +86,7 @@ const submitHandle =(e)=>{
                 setResponse("Supplier added successfully!");
                 setData({
                   name:'',
+                  contactName:'',
                   nic:'',
                   email:'',
                   phone:'',
@@ -115,6 +118,15 @@ return (
               name="name"
               onChange={handleChange}
               value={data.name || ''}
+              size='small'
+              // required
+            />
+            <TextField
+              label="Contact Name"
+              variant="outlined"
+              name="contactName"
+              onChange={handleChange}
+              value={data.contactName || ''}
               size='small'
               // required
             />
@@ -155,7 +167,7 @@ return (
               // required
             />
             <Box sx={{ width: 200 }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth required>
                   <InputLabel>Payment Term</InputLabel>
                   <Select
                     value={data.paymentTerm}

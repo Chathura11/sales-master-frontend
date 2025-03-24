@@ -19,8 +19,8 @@ const CategoryList = ({configure}) => {
       openSidePanel("ADD NEW CATEGORY",<CategoryForm/>)
   };
 
-  const handleClickEditCategoryFormOpen = (categoryId) => {
-    navigate('/admin-panel/category/edit/'+categoryId);
+  const handleClickEditCategoryFormOpen = (category) => {
+    navigate('/admin-panel/category/edit/'+category._id,{state:category});
   };
 
   const [categories,SetCategories] = useState([])
@@ -67,7 +67,7 @@ return (
                     <CardHeader
                       action={
                         configure?
-                          <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditCategoryFormOpen(category._id)}>
+                          <IconButton aria-label="settings" color='primary' onClick={()=>handleClickEditCategoryFormOpen(category)}>
                           <EditIcon fontSize='small'/>
                         </IconButton>
                         :''
