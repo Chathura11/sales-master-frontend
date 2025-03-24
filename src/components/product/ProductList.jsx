@@ -15,14 +15,22 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { LinearProgress } from '@mui/material';
+import { Button, LinearProgress, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import axiosInstance from '../../api/api';
+import { useSidePanel } from '../../context/SidePanelContext';
+import ProductForm from './ProductForm';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate()
+  const handleClickEditFormOpen = (product) => {
+    navigate('/admin-panel/product/edit/'+product._id,{state:product});
+  };
 
   return (
     <React.Fragment>
@@ -37,17 +45,20 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
+          {row.id}
+        </TableCell>
+        <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="right">{row.barcode}</TableCell>
         <TableCell align="right">{row.price}</TableCell>
         <TableCell align="right">{row.cost}</TableCell>
-        <TableCell align="center">{row.status}</TableCell>
+        <TableCell align="right">{row.discount}</TableCell>
+        <TableCell align="center">{row.status?"Active":"Inactive"}</TableCell>
         <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() =>console.log("clicked")}
+            onClick={() =>handleClickEditFormOpen(row)}
           >
             <EditIcon fontSize='inherit'/>
           </IconButton>
@@ -63,6 +74,7 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
+                    <TableCell>Code</TableCell>
                     <TableCell>Brand</TableCell>
                     <TableCell>Category</TableCell>
                     <TableCell>Suplier</TableCell>
@@ -71,9 +83,10 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                     <TableRow>
-                      <TableCell>{row.brandName}</TableCell>
-                      <TableCell>{row.categoryName}</TableCell>
-                      <TableCell>{row.suplierName}</TableCell>
+                      <TableCell>{row.code}</TableCell>
+                      <TableCell>{row.brand?.name}</TableCell>
+                      <TableCell>{row.category?.name}</TableCell>
+                      <TableCell>{row.supplier?.name}</TableCell>
                       <TableCell>{row.description}</TableCell>
                     </TableRow>
                 </TableBody>
@@ -88,45 +101,51 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    barcode: PropTypes.string.isRequired,
-    cost: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-const ProductList = () => {
+const ProductList = ({configure}) => {
 
+  const {openSidePanel} = useSidePanel()
   const [rows,setRows] = useState([])
   const [isLoading, setIsLoading] = useState(true); 
+
 
   useEffect(() => {
     async function load(){
 
-      const productResponse = await axiosInstance.get('api/products');
-      const products = productResponse.data.products
-      const categorieResponse = await axiosInstance.get('api/categories');
-      const categories = categorieResponse.data.categories
-      const brandResponse = await axiosInstance.get('api/brands');
-      const brands = brandResponse.data.brands
-      const suplierResponse = await axiosInstance.get('api/supliers');
-      const supliers = suplierResponse.data.supliers
+      // const productResponse = await axiosInstance.get('/products');
+      // const products = productResponse.data.data
+      // const categorieResponse = await axiosInstance.get('/categories');
+      // const categories = categorieResponse.data.data
+      // const brandResponse = await axiosInstance.get('/brands');
+      // const brands = brandResponse.data.data
+      // const suplierResponse = await axiosInstance.get('/suppliers');
+      // const supliers = suplierResponse.data.data
 
-      const list = products.map(product=>{
-        const category = categories.find(category => category.id === product.category_id);
-        const brand = brands.find(brand => brand.id === product.brand_id);
-        const suplier = supliers.find(suplier => suplier.id === product.suplier_id);
+      // const list =products && products.map(product=>{
+      //   const category = categories.find(category => category.id === product.category_id);
+      //   const brand = brands.find(brand => brand.id === product.brand_id);
+      //   const suplier = supliers.find(suplier => suplier.id === product.suplier_id);
 
-        return {
-          ...product,
-          categoryName: category ? category.name : 'Unknown Category',
-          brandName: brand ? brand.name : 'Unknown brand',
-          suplierName: suplier ? suplier.name : 'Unknown suplier',
-        };
+      //   return {
+      //     ...product,
+      //     categoryName: category ? category.name : 'Unknown Category',
+      //     brandName: brand ? brand.name : 'Unknown brand',
+      //     suplierName: suplier ? suplier.name : 'Unknown suplier',
+      //   };
+      // })
+      // setRows(list)
+      // setIsLoading(false)
+
+      await axiosInstance.get('/products').then((res)=>{
+        setRows(res.data.data);
+        console.log(res.data.data);
+      }).catch((error)=>{
+        console.log(error.response.data.data);
       })
- 
-      setRows(list)
-      setIsLoading(false)
+      setIsLoading(false);
     }
     try{
       load()
@@ -136,36 +155,49 @@ const ProductList = () => {
     } 
   }, [])
 
+  const handleClickFormOpen = () => {
+    openSidePanel("ADD NEW PRODUCT",<ProductForm/>)
+  };
+
   return (
-    <>
-    {
-      isLoading
-      ?
-        <Box sx={{textAlign:'center'}}>
-          <LinearProgress color="teal" />
-        </Box>
-      :
-      <TableContainer component={Paper}>
-        <Table size='small' aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Product Name</TableCell>
-              <TableCell align="right">Barcode</TableCell>
-              <TableCell align="right">Price&nbsp;(Rs)</TableCell>
-              <TableCell align="right">Cost&nbsp;(Rs)</TableCell>
-              <TableCell align="center">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    }
-    </>
+    <Paper elevation={0} sx={{padding:2}}>
+      <Stack spacing={2}>
+      <Box sx={{textAlign:'end'}}>
+        {configure
+          ?<Button variant='contained' size='small' onClick={handleClickFormOpen}><AddIcon/>Add New Product</Button>
+          :''      
+        }   
+      </Box>
+      {
+        isLoading
+        ?
+          <Box sx={{textAlign:'center'}}>
+            <LinearProgress color="teal" />
+          </Box>
+        :
+        <TableContainer component={Paper}>
+          <Table size='small' aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell>ProductID</TableCell>
+                <TableCell>Product Name</TableCell>
+                <TableCell align="right">Price&nbsp;(Rs)</TableCell>
+                <TableCell align="right">Cost&nbsp;(Rs)</TableCell>
+                <TableCell align="right">Discount&nbsp;(%)</TableCell>
+                <TableCell align="center">Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows&&rows.map((row) => (
+                <Row key={row.id} row={row} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      }
+    </Stack>
+    </Paper>
     
   );
 }

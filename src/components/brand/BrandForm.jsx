@@ -27,20 +27,21 @@ const BrandForm = ({edit}) => {
 
     useEffect(() => {
         async function load(){
-            if(edit){
-                setIsLoading(true)
-                setData({
-                  name:location.state.name,
-                  description:location.state.description,
-                  imageURL:location.state.imageURL,
-                  status:location.state.status,
-                  remark:location.state.remark
-                })
-                setIsLoading(false)
-            }
+          setIsLoading(true)
+          if(edit){
+            setData({
+              name:location.state.name,
+              description:location.state.description,
+              imageURL:location.state.imageURL,
+              status:location.state.status,
+              remark:location.state.remark
+            })           
+        }  
         }
         try{
-            load()
+            load().then(()=>{
+              setIsLoading(false)
+            })
         }catch(e){
             console.log(e.message)
             setIsLoading(false)

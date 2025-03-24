@@ -33,6 +33,7 @@ const handleChange = ({ currentTarget: input }) => {
 
 useEffect(() => {
     async function load(){
+      setIsLoading(true);
       await axiosInstance.get('/payterms').then((res)=>{
         setPayterms(res.data.data)
       }) 
@@ -53,7 +54,9 @@ useEffect(() => {
       }
     }
     try{
-        load()
+        load().then(()=>{
+          setIsLoading(false)
+        })      
     }catch(e){
         console.log(e.message)
         setIsLoading(false)
