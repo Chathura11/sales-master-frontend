@@ -12,9 +12,15 @@ const SaleContent = () => {
 
     useEffect(() => {
         async function load(){
+            const allCategory = {
+                name:'All',
+                imageURL:'',
+                status:true
+            }
           await axiosInstance.get('categories').then((res)=>{
             const activeCategories = res.data.data.filter(item => item.status === true)
-            SetCategories(activeCategories)
+            const updatedCategories = [allCategory, ...activeCategories];
+            SetCategories(updatedCategories)
           }).catch((error)=>{
             console.log(error.response.data.message)
           })
@@ -42,9 +48,9 @@ const SaleContent = () => {
           </Box>
           :categories &&
             <Grid container spacing={2}>
-            {categories&&categories.map((category)=>{
+            {categories&&categories.map((category,index)=>{
               return(
-                <Grid item key={category._id}>
+                <Grid item key={index}>
                   <CardActionArea onClick={() => handleCardClick(category)}>
                   <Card variant='outlined' sx={{width:150}} >
                     <CardHeader sx={{height:2,textAlign:'center'}}
