@@ -13,6 +13,7 @@ const SaleContent = () => {
     useEffect(() => {
         async function load(){
             const allCategory = {
+                _id:0,
                 name:'All',
                 imageURL:'',
                 status:true
