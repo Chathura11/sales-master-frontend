@@ -116,7 +116,6 @@ const SuplierList = ({configure}) => {
   
         await axiosInstance.get('/suppliers').then((res)=>{
             setRows(res.data.data)
-            console.log(res.data.data)
           }).catch((error)=>{
             console.log(error.response.data.data)
           })

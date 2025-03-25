@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useLocation, useParams } from 'react-router-dom';
 import axiosInstance from '../../api/api';
+import MediaUpload from "../utils/MediaUpload";
 
 const CategoryForm = ({edit}) => {
   const location = useLocation();
@@ -19,6 +20,8 @@ const [response,setResponse] = useState('')
 const [isLoading, setIsLoading] = useState(false);
 const [serverError,setServerError] = useState('')
 const {categoryId} = useParams();
+const [imageFile,setImageFile] = useState(null);
+const [imageUploading,setImageUploading] = useState(false);
 
 const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -85,6 +88,19 @@ const submitHandle =(e)=>{
         }
     }
 }
+
+const HandleUploadImage=(e)=>{
+  setImageUploading(true)
+  e.preventDefault();
+  MediaUpload(imageFile).then((url)=>{
+    setData({...data,imageURL:url})
+    setImageUploading(false);
+  }).catch((error)=>{
+    setServerError(error);
+    setImageUploading(false);
+  });
+}
+
 return (
 <Paper elevation={0} sx={{padding:2}} >
   <Stack spacing={2} sx={{margin:1}}>
@@ -121,15 +137,18 @@ return (
           labelPlacement="start"
           checked={data.status}
         />
-        <Stack direction='row' spacing={2}>
-          <TextField size='small' onChange={(e)=>setData({...data,imageURL:e.target.value})} style={{ "width": "100%" }} label="Image" value={data.imageURL ? data.imageURL : ""} helperText={"Select image and press upload"} />
+        <Stack direction='row' spacing={2}>            
           <label htmlFor="contained-button-file">
-              <Input hidden accept="image/*" id="contained-button-file" type="file" name="file_uploaded" onChange={(e)=>setData({...data,imageURL:e.target.files[0].name})} />
-              <Button variant="outlined" component="span" startIcon={<CloudUploadIcon/>}>
+              <Input hidden accept="image/*" id="contained-button-file" type="file" name="file_uploaded" onChange={(e)=>setImageFile(e.target.files[0])} />
+              <Button variant="outlined" component="span">
                   SELECT
               </Button>
           </label>
         </Stack>
+        <Button disabled={imageUploading?true:false} variant="outlined" component="span" startIcon={<CloudUploadIcon/>} onClick={HandleUploadImage}>
+          Upload Image
+        </Button>
+        <TextField size='small' onChange={(e)=>setData({...data,imageURL:e.target.value})} style={{ "width": "100%" }} label="Image" value={data.imageURL ? data.imageURL : ""} helperText={"Select image and press upload"} />       
         {serverError&&<Alert severity="error">
           <AlertTitle>{serverError}</AlertTitle>
           This is an error alert — <strong>check it out!</strong>

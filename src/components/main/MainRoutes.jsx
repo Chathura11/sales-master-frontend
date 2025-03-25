@@ -61,7 +61,7 @@ const DashboardRoutes = () => {
 
                 <SideNavigation isLoggedIn={isLoggedIn} authUser={authUser} logOut={logOut}/>
                 <Main sx={{ postion: 'relative' }} >
-                    <Container fixed style={{ paddingTop: '50px' ,minWidth:'1100px'}}>
+                    <Container fixed style={{ paddingTop: '50px' ,maxWidth:'1500px'}}>
 
                         <Stack spacing={2} >
                             {/* routings */}

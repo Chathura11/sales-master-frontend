@@ -8,7 +8,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useTheme } from '@emotion/react';
-import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import { useNavigate } from 'react-router-dom';
 import TableViewOutlinedIcon from '@mui/icons-material/TableViewOutlined';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
@@ -16,6 +15,7 @@ import logo from '../../img/ccNew.png'
 import PersonIcon from '@mui/icons-material/Person';
 import ProfileCard from '../user-profile/ProfileCard';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const drawerWidth = 240;
 
@@ -111,7 +111,7 @@ const SideNavigation = ({isLoggedIn,authUser,logOut}) => {
 
     const mainListItemButtonsHandle=(index)=>{
       if(index ===0){
-        navigate('/dashboard')
+        navigate('/sell')
       }
       if(index===1){
         navigate('/home')
@@ -236,7 +236,7 @@ const SideNavigation = ({isLoggedIn,authUser,logOut}) => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                {['Dashboard','Home' ,'Categories','Brands'].map((text, index) => (
+                {['Sell','Home' ,'Categories','Brands'].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                     <ListItemButton
                         sx={{
@@ -253,7 +253,7 @@ const SideNavigation = ({isLoggedIn,authUser,logOut}) => {
                             justifyContent: 'center',
                         }}
                         >
-                        {index === 0 ? <ColorLensOutlinedIcon/> :index ===1?<HomeOutlinedIcon/> : index===2 ? <TableViewOutlinedIcon />:<StyleOutlinedIcon />}
+                        {index === 0 ? <AddShoppingCartIcon/> :index ===1?<HomeOutlinedIcon/> : index===2 ? <TableViewOutlinedIcon />:<StyleOutlinedIcon />}
                         </ListItemIcon>
                         <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
