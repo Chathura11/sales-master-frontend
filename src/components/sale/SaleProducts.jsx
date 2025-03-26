@@ -1,6 +1,7 @@
-import { Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Grid, Paper, Typography } from '@mui/material'
+import { Box, Card, CardActionArea, CardContent,CardMedia, Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
 import productImage from '../product/img/product.png'
+import { teal } from '@mui/material/colors';
 
 const SaleProducts = ({products,setOrderedProducts,orderedProducts}) => {
   
@@ -19,9 +20,11 @@ const SaleProducts = ({products,setOrderedProducts,orderedProducts}) => {
                 <Grid item key={index}>
                   <CardActionArea onClick={() => handleCardClick(product)}>
                   <Card variant='outlined' sx={{width:150}} >
-                    <CardHeader sx={{height:2,textAlign:'center'}}
-                      subheader={product.name}
-                    />                   
+                    <CardContent sx={{height:20}} >
+                      <Typography variant="body2" color="text.primary" sx={{textAlign:'center'}}>
+                        {product.name}
+                      </Typography>
+                    </CardContent>                   
                       <Box sx={{display:'flex',justifyContent:'center'}}> 
                         <CardMedia
                           component="img"
@@ -29,11 +32,14 @@ const SaleProducts = ({products,setOrderedProducts,orderedProducts}) => {
                           image={product.imageURL?product.imageURL:productImage}
                         />          
                       </Box>        
-                    <CardContent sx={{height:20}}>
+                    <CardContent sx={{height:40,background:teal[500]}}>
+                      <Typography variant="body2" color="white" sx={{textAlign:'center'}}>
+                        {product.brand?.name}
+                      </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
                         code:{product.code}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
+                      <Typography variant="body2" color="white" sx={{textAlign:'center'}}>
                         Rs.{product.price}
                       </Typography>
                     </CardContent>
