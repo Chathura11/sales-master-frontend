@@ -8,22 +8,31 @@ import categoryImage from '../category/img/1.jpg'
 const SaleContent = () => {
 
     const [isLoading, setIsLoading] = useState(true); 
-    const [categories,SetCategories] = useState([])
+    const [categories,setCategories] = useState([])
+    const [products,setProducts] = useState([])
+    const [filteredProducts,setFilteredProducts] = useState([]);
+    const [orderedProducts,setOrderedProducts] = useState([])
 
     useEffect(() => {
         async function load(){
-            const allCategory = {
-                _id:0,
-                name:'All',
-                imageURL:'',
-                status:true
-            }
+          const allCategory = {
+            _id:0,
+            name:'All',
+            imageURL:'',
+            status:true
+          }  
           await axiosInstance.get('categories').then((res)=>{
             const activeCategories = res.data.data.filter(item => item.status === true)
             const updatedCategories = [allCategory, ...activeCategories];
-            SetCategories(updatedCategories)
+            setCategories(updatedCategories)
           }).catch((error)=>{
             console.log(error.response.data.message)
+          })
+
+          await axiosInstance.get('/products').then((res)=>{
+            const activeProduct = res.data.data.filter(item =>item.status === true)
+            setProducts(activeProduct)
+            setFilteredProducts(activeProduct)
           })
     
           setIsLoading(false)
@@ -32,16 +41,24 @@ const SaleContent = () => {
           load()
         }catch(e){
           console.log(e.message)
+          setIsLoading(false)
         }
     }, [])
 
     function handleCardClick(data){
-        console.log(data);
+      if(data._id !== 0){
+        const filteredProducts = products.filter(item => item.category?._id === data._id)
+        setFilteredProducts(filteredProducts)
+      }else{
+        setFilteredProducts(products)
+      }
+      
+      
     }
 
   return (
     <Stack spacing={2}>
-        <Paper elevation={0} sx={{ display: 'flex', alignItems: 'center',padding:2 }}>
+      <Paper elevation={0} sx={{ alignItems: 'center',padding:2 ,minHeight:60}}>
         {
           isLoading?
           <Box sx={{textAlign:'center'}}>
@@ -79,12 +96,12 @@ const SaleContent = () => {
             </Grid>
           
         }
-        </Paper>
+      </Paper>
 
-        <Stack direction='row' spacing={2}>
-            <SaleProducts/>
-            <SaleOrderList/>
-        </Stack>
+      <Stack direction='row' spacing={2}>
+        <SaleProducts products={filteredProducts} setOrderedProducts={setOrderedProducts} orderedProducts={orderedProducts}/>
+        <SaleOrderList orderedProducts={orderedProducts}/>
+      </Stack>
     </Stack>
   )
 }

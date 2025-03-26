@@ -1,10 +1,16 @@
 import { Paper } from '@mui/material'
 import React from 'react'
 
-const SaleOrderList = () => {
+const SaleOrderList = ({orderedProducts}) => {
   return (
     <Paper elevation={0} sx={{padding:2,width:'30%'}}>
-        Order List
+        {orderedProducts&&orderedProducts.map((product,index)=>{
+          return(
+            <div key={index}>
+              {product.name}
+            </div>
+          )
+        })}
     </Paper>
   )
 }
