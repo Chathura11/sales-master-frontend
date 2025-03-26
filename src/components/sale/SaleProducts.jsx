@@ -3,11 +3,41 @@ import React from 'react'
 import productImage from '../product/img/product.png'
 import { teal } from '@mui/material/colors';
 
-const SaleProducts = ({products,setOrderedProducts,orderedProducts}) => {
+const SaleProducts = ({products,setOrderedProducts,setTotalPrice,setTotalQnty}) => {
   
   function handleCardClick(data){
-    console.log(data);
-    setOrderedProducts([...orderedProducts,data])
+    setOrderedProducts(prevProducts => {
+      const existingProduct = prevProducts.find(item => item._id === data._id);
+      let updatedProducts;
+
+      if (existingProduct) {
+        updatedProducts = prevProducts.map(item =>
+          item._id === data._id
+            ? { 
+                ...item, 
+                quantity: item.quantity + 1, 
+                quantityPrice: (item.price * (item.quantity + 1)) * (100-item.discount) / 100
+              }
+            : item
+        );
+      } else {
+        updatedProducts = [...prevProducts, { 
+          ...data, 
+          quantity: 1, 
+          quantityPrice: (data.price) * (100-data.discount) / 100
+        }];
+      }
+
+      // Calculate total quantity and total price
+      const totalQuantity = updatedProducts.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = updatedProducts.reduce((sum, item) => sum + item.quantityPrice, 0);
+
+      // Update state
+      setTotalQnty(totalQuantity);
+      setTotalPrice(totalPrice);
+
+      return updatedProducts;
+    });
   }
 
   return (

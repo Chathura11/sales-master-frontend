@@ -12,6 +12,8 @@ const SaleContent = () => {
     const [products,setProducts] = useState([])
     const [filteredProducts,setFilteredProducts] = useState([]);
     const [orderedProducts,setOrderedProducts] = useState([])
+    const [totalPrice,setTotalPrice] = useState(0)
+    const [totalQnty,setTotalQnty] = useState(0)
 
     useEffect(() => {
         async function load(){
@@ -30,7 +32,7 @@ const SaleContent = () => {
           })
 
           await axiosInstance.get('/products').then((res)=>{
-            const activeProduct = res.data.data.filter(item =>item.status === true)
+            const activeProduct = res.data.data.filter(item =>item.status === true).map(item => ({ ...item, quantity: 1 }));
             setProducts(activeProduct)
             setFilteredProducts(activeProduct)
           })
@@ -99,8 +101,8 @@ const SaleContent = () => {
       </Paper>
 
       <Stack direction='row' spacing={2}>
-        <SaleProducts products={filteredProducts} setOrderedProducts={setOrderedProducts} orderedProducts={orderedProducts}/>
-        <SaleOrderList orderedProducts={orderedProducts}/>
+        <SaleProducts products={filteredProducts} setOrderedProducts={setOrderedProducts} setTotalPrice={setTotalPrice} setTotalQnty={setTotalQnty}/>
+        <SaleOrderList orderedProducts={orderedProducts} totalPrice={totalPrice} totalQnty={totalQnty}/>
       </Stack>
     </Stack>
   )
