@@ -13,7 +13,7 @@ const ProfileCard = ({authUser,logOut}) => {
     }
 
     const handleClickProfile = ()=>{
-        navigate('user-profile/user')
+        navigate('/user-profile/user')
     }
 
     const handleLogout=(e)=>{
