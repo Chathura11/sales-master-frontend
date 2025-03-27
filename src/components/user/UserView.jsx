@@ -105,7 +105,7 @@ const UserView = ({authUser,isLoggedIn,profile}) => {
                     </Box>
                   </Stack>
                   <Grid container spacing={2} sx={{textAlign:'center'}}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <Stack spacing={1}>
                         <TableContainer component={Paper}>
                           <Table style={{color:'white',backgroundColor:'#263238'}} sx={{ minWidth: 650}} aria-label="simple table">

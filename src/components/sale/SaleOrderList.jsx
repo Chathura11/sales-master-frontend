@@ -1,83 +1,75 @@
-import { Divider, Paper, Stack, Typography } from '@mui/material'
-import { teal } from '@mui/material/colors'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Typography } from '@mui/material'
 import React from 'react'
+import { Backspace as BackspaceIcon } from "@mui/icons-material";
 
-const SaleOrderList = ({orderedProducts,totalPrice,totalQnty}) => {
+const SaleOrderList = ({orderedProducts,setOrderedProducts,setTotalPrice,setTotalQnty,totalPrice,totalQnty}) => {
+
+  function backspaceHandle(data){
+    setOrderedProducts(prevProducts => {
+      const updatedProducts = prevProducts.map(item => 
+        item._id === data._id 
+          ? { 
+              ...item, 
+              quantity: item.quantity - 1, 
+              quantityPrice: item.price * (item.quantity - 1) * (100 - item.discount) / 100
+            } 
+          : item
+      ).filter(item => item.quantity > 0); // Remove product if quantity becomes 0
+
+      // Calculate total quantity and total price
+      const newTotalQnty = updatedProducts.reduce((sum, item) => sum + item.quantity, 0);
+      const newTotalPrice = updatedProducts.reduce((sum, item) => sum + item.quantityPrice, 0);
+
+      setTotalQnty(newTotalQnty);
+      setTotalPrice(newTotalPrice);
+
+      return updatedProducts;
+    });
+  }
+
   return (
-    <Paper elevation={0} sx={{padding:2,width:'30%'}}>
-      <Stack>
-        <Typography component="span" variant="body2" sx={{ color: 'text.primary',display:'flex',height:40,justifyItems:'center',justifyContent:'center',alignItems:'center',background:teal[500]}}>
-          Orderd List
-        </Typography>
-
-        <Stack  direction='row' spacing={1} sx={{background:'black',height:30,display:'flex',alignItems:'center'}}>
-          <Typography width='50%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' }}>
-            Product
-          </Typography>
-          <Typography width='10%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' ,textAlign:'center'}}>
-            Qnty
-          </Typography>
-          <Typography width='10%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' ,textAlign:'center'}}>
-            %
-          </Typography>
-          <Typography width='20%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' ,textAlign:'center'}}>
-            Price
-          </Typography>
-          <Typography width='20%' component="span" variant="body2" sx={{ color: 'white', display: 'inline',textAlign:'center' }}>
-            Total
-          </Typography>
-        </Stack>
-        <Divider />
-      </Stack>
-
-      {orderedProducts&&orderedProducts.map((product,index)=>{
-        return(
-          <Stack key={index} sx={{height:30}}>
-            <Stack  direction='row' spacing={1}>
-              <Typography width='50%' component="span" variant="body2" sx={{ color: 'text.primary', display: 'inline' }}>
-                {product.name}
-              </Typography>
-              <Typography width='10%' component="span" variant="body2" sx={{ color: 'text.primary', display: 'inline' ,textAlign:'center'}}>
-                {product.quantity}
-              </Typography>
-              <Typography width='10%' component="span" variant="body2" sx={{ color: 'text.primary', display: 'inline',textAlign:'center'}}>
-                {product.discount}
-              </Typography>
-              <Typography width='20%' component="span" variant="body2" sx={{ color: 'text.primary', display: 'inline' ,textAlign:'right'}}>
-                {product.price}
-              </Typography>
-              <Typography width='20%' component="span" variant="body2" sx={{ color: 'text.primary', display: 'inline' ,textAlign:'right'}}>
-                {product.quantityPrice}
-              </Typography>
-            </Stack>
-            <Divider />
-          </Stack>            
-        )
-      })} 
-
-      <Stack>
-        <Stack  direction='row' spacing={1} sx={{background:'black',height:30,display:'flex',alignItems:'center'}}>
-          <Typography width='50%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' }}>
-            Total
-          </Typography>
-          <Typography width='10%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' ,textAlign:'center'}}>
-            {totalQnty}
-          </Typography>
-          <Typography width='10%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' ,textAlign:'center'}}>
-            
-          </Typography>
-          <Typography width='20%' component="span" variant="body2" sx={{ color: 'white', display: 'inline' ,textAlign:'center'}}>
-            
-          </Typography>
-          <Typography width='20%' component="span" variant="body2" sx={{ color: 'white', display: 'inline',textAlign:'right' }}>
-            {totalPrice}
-          </Typography>
-        </Stack>
-        <Divider />
-      </Stack>
-
-    </Paper>
-  )
+    <TableContainer sx={{ width: '35%'}}>
+      <Typography variant="h6" align="center" sx={{ background: 'teal', color: 'white', padding: 1 }}>
+        Ordered List
+      </Typography>
+      <Table>
+        <TableHead sx={{ background: 'black' }}>
+          <TableRow>
+            <TableCell sx={{ color: 'white' }}>Product</TableCell>
+            <TableCell sx={{ color: 'white', textAlign: 'center' }}>Qnty</TableCell>
+            <TableCell sx={{ color: 'white', textAlign: 'center' }}>%</TableCell>
+            <TableCell sx={{ color: 'white', textAlign: 'center' }}>Price</TableCell>
+            <TableCell sx={{ color: 'white', textAlign: 'center' }}>Total</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {orderedProducts && orderedProducts.map((product, index) => (
+            <TableRow key={index}>
+              <TableCell>{product.name}</TableCell>
+              <TableCell align="center">{product.quantity}</TableCell>
+              <TableCell align="center">{product.discount}</TableCell>
+              <TableCell align="center">{product.price}</TableCell>
+              <TableCell align="center">{product.quantityPrice}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => backspaceHandle(product)}>
+                  <BackspaceIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+          <TableRow sx={{ background: 'black' }}>
+            <TableCell sx={{ color: 'white' }}>Total</TableCell>
+            <TableCell sx={{ color: 'white', textAlign: 'center' }}>{totalQnty}</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell sx={{ color: 'white', textAlign: 'center' }}>{totalPrice}</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
 export default SaleOrderList

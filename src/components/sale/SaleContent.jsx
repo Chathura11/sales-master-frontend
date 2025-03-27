@@ -102,7 +102,7 @@ const SaleContent = () => {
 
       <Stack direction='row' spacing={2}>
         <SaleProducts products={filteredProducts} setOrderedProducts={setOrderedProducts} setTotalPrice={setTotalPrice} setTotalQnty={setTotalQnty}/>
-        <SaleOrderList orderedProducts={orderedProducts} totalPrice={totalPrice} totalQnty={totalQnty}/>
+        <SaleOrderList orderedProducts={orderedProducts} setOrderedProducts={setOrderedProducts} setTotalPrice={setTotalPrice} setTotalQnty={setTotalQnty} totalPrice={totalPrice} totalQnty={totalQnty}/>
       </Stack>
     </Stack>
   )

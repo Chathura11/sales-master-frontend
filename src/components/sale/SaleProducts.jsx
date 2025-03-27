@@ -40,8 +40,13 @@ const SaleProducts = ({products,setOrderedProducts,setTotalPrice,setTotalQnty}) 
     });
   }
 
+  const paperStyle={
+    padding:'20px',
+    background:"#FFFFFF77"
+  }
+
   return (
-    <Paper elevation={0} sx={{padding:2,width:'70%',minHeight:300}}>
+    <Paper elevation={0} sx={{padding:2,width:'65%',minHeight:300}}>
         {
           products &&
             <Grid container spacing={2}>
@@ -62,12 +67,15 @@ const SaleProducts = ({products,setOrderedProducts,setTotalPrice,setTotalQnty}) 
                           image={product.imageURL?product.imageURL:productImage}
                         />          
                       </Box>        
-                    <CardContent sx={{height:40,background:teal[500]}}>
+                    <CardContent sx={{height:60,background:teal[500]}}>
                       <Typography variant="body2" color="white" sx={{textAlign:'center'}}>
                         {product.brand?.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
                         code:{product.code}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
+                        discount:{product.discount}%
                       </Typography>
                       <Typography variant="body2" color="white" sx={{textAlign:'center'}}>
                         Rs.{product.price}
