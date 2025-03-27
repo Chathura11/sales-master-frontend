@@ -76,7 +76,7 @@ const UserView = ({authUser,isLoggedIn,profile}) => {
         <Loader/>
         :
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid size={4}>
           <Stack spacing={1} sx={{height:'100%'}}>
             <Paper elevation={0} style={paperStyle} sx={{height:'100%'}}>
               
@@ -94,7 +94,7 @@ const UserView = ({authUser,isLoggedIn,profile}) => {
             </Paper>
           </Stack>
           </Grid>
-          <Grid item xs={8}>
+          <Grid size={8}>
             <Stack spacing={1} sx={{height:'100%'}}>
               <Paper elevation={0} style={paperStyle} sx={{height:'100%'}}>
                   <Stack spacing={0}>
