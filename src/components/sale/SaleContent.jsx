@@ -4,6 +4,7 @@ import SaleProducts from './SaleProducts'
 import SaleOrderList from './SaleOrderList'
 import axiosInstance from '../../api/api'
 import categoryImage from '../category/img/1.jpg'
+import { blueGrey } from '@mui/material/colors'
 
 const SaleContent = () => {
 
@@ -58,9 +59,14 @@ const SaleContent = () => {
       
     }
 
+    const paperStyle={
+      padding:'20px',
+      background:blueGrey[900]
+    }
+
   return (
     <Stack spacing={2}>
-      <Paper elevation={0} sx={{ alignItems: 'center',padding:2 ,minHeight:60}}>
+      <Paper style={paperStyle} elevation={0} sx={{ alignItems: 'center',padding:2 ,minHeight:60}}>
         {
           isLoading?
           <Box sx={{textAlign:'center'}}>

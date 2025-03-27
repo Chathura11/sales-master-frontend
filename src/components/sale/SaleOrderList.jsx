@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import { Backspace as BackspaceIcon } from "@mui/icons-material";
+import { blueGrey } from '@mui/material/colors';
 
 const SaleOrderList = ({orderedProducts,setOrderedProducts,setTotalPrice,setTotalQnty,totalPrice,totalQnty}) => {
 
@@ -33,7 +34,7 @@ const SaleOrderList = ({orderedProducts,setOrderedProducts,setTotalPrice,setTota
         Ordered List
       </Typography>
       <Table>
-        <TableHead sx={{ background: 'black' }}>
+        <TableHead sx={{ background: blueGrey[900] }}>
           <TableRow>
             <TableCell sx={{ color: 'white' }}>Product</TableCell>
             <TableCell sx={{ color: 'white', textAlign: 'center' }}>Qnty</TableCell>
@@ -58,7 +59,7 @@ const SaleOrderList = ({orderedProducts,setOrderedProducts,setTotalPrice,setTota
               </TableCell>
             </TableRow>
           ))}
-          <TableRow sx={{ background: 'black' }}>
+          <TableRow sx={{ background: blueGrey[900] }}>
             <TableCell sx={{ color: 'white' }}>Total</TableCell>
             <TableCell sx={{ color: 'white', textAlign: 'center' }}>{totalQnty}</TableCell>
             <TableCell></TableCell>
