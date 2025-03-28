@@ -51,15 +51,13 @@ function Content(){
                 <Container>
                     <Stack spacing={2} alignItems='flex-start' style={{ paddingTop: '42px' }}>
                         <Grid container style={{ marginTop: '72px' }}>
-                            <Grid item xs={12} sx={{ mt: '32px' }}>
+                            <Grid sx={{ mt: '32px' }}>
                                 <Box>
                                     <Typography sx={{color:'white',fontSize:'50px'}}>Sales Master</Typography>
                                     <Typography sx={{color:'white',marginBottom:0,marginTop:0,fontSize:'25px'}}>Point of sales system</Typography>
                                     <Typography sx={{color:'white',marginBottom:4,fontSize:'15px'}}>Make your sales properly</Typography>
                                     <Stack direction='row' spacing={2} sx={{alignItems:'center'}}>
-                                        <Paper elevation={0} sx={{width:'600px',padding:'30px'}}>
-                                            <SignIn/>
-                                        </Paper>
+                                        
                                     </Stack>
                                 </Box>
                             </Grid>
@@ -67,6 +65,11 @@ function Content(){
                         
                     </Stack>
                 </Container>
+                <Container>
+                    <Paper elevation={0} sx={{maxWidth:'600px',padding:'30px'}}>
+                        <SignIn/>
+                    </Paper>     
+                </Container>                       
                 
                 </div>        
             </div>

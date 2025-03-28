@@ -29,7 +29,7 @@ const SaleOrderList = ({orderedProducts,setOrderedProducts,setTotalPrice,setTota
   }
 
   return (
-    <TableContainer sx={{ width: '35%'}}>
+    <TableContainer>
       <Typography variant="h6" align="center" sx={{ background: 'teal', color: 'white', padding: 1 }}>
         Ordered List
       </Typography>

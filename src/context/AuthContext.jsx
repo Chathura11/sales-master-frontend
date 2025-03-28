@@ -54,7 +54,7 @@ export function AuthProvider(props){
 
         try{
             axiosInstance.post('/users/logout').then((res)=>{
-                console.log(res.data.message)
+                console.log(res.data.data)
                 setIsLoggedIn(false)
                 setAuthUser(null)
             })

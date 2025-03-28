@@ -46,7 +46,7 @@ const SaleProducts = ({products,setOrderedProducts,setTotalPrice,setTotalQnty}) 
   }
 
   return (
-    <Paper elevation={0} style={paperStyle} sx={{padding:2,width:'65%',minHeight:300}}>
+    <Paper elevation={0} style={paperStyle} sx={{padding:2,minHeight:300}}>
         {
           products &&
             <Grid container spacing={2}>
