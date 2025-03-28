@@ -105,7 +105,6 @@ const SaleContent = () => {
           
         }
       </Paper>
-
       {
         !isLoading&&
         <Stack direction='row' spacing={2}>
