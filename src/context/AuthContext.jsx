@@ -39,7 +39,7 @@ export function AuthProvider(props){
         try{
             await axiosInstance.post('/users/login',data).then((res)=>{
                 toast.success(res.data.data)
-                navigate('/contact')
+                navigate('/sell')
             }).catch((e)=>{
                 toast.error(e.response.data.data)
                 setErrors(e.response.data)
