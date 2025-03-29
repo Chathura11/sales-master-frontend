@@ -67,7 +67,7 @@ return (
               return(
                 !configure ?
                 category.status === true &&
-                <Grid item key={category._id}>
+                <Grid key={category._id}>
                   <CardActionArea onClick={() => handleCardClick(category)}>
                   <Card variant='outlined' sx={{width:240}} >
                     <CardHeader sx={{height:100}}
@@ -97,7 +97,7 @@ return (
                   </CardActionArea>
                 </Grid>
                 :
-                <Grid item key={category._id}>
+                <Grid key={category._id}>
                   <Card variant='outlined' sx={{width:240}} >
                     <CardHeader sx={{height:100}}
                       action={

@@ -1,11 +1,10 @@
-import {  Box, Grid, IconButton, Paper, Stack, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import {  Box, Grid, IconButton, LinearProgress, Paper, Stack, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import { blueGrey, lightBlue} from '@mui/material/colors';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
-import Loader from '../common/Loading';
 import axiosInstance from '../../api/api';
 import Table from '@mui/material/Table';
 
@@ -73,7 +72,9 @@ const UserView = ({authUser,isLoggedIn,profile}) => {
     
     <>
       {isLoading?
-        <Loader/>
+        <Box sx={{textAlign:'center'}}>
+          <LinearProgress color="teal" />
+        </Box>
         :
         <Grid container spacing={2}>
           <Grid size={4}>

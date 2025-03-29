@@ -66,7 +66,7 @@ const BrandList = ({configure}) => {
                 return(
                   !configure ?
                   brand.status === true &&
-                  <Grid item key={brand._id}>
+                  <Grid key={brand._id}>
                     <CardActionArea onClick={() => handleCardClick(brand)}>
                     <Card variant='outlined' sx={{width:240}}>
                       <CardHeader sx={{height:100}}
@@ -96,7 +96,7 @@ const BrandList = ({configure}) => {
                     </CardActionArea>
                   </Grid>
                   :
-                  <Grid item key={brand._id}>
+                  <Grid key={brand._id}>
                     <Card variant='outlined' sx={{width:240}}>
                       <CardHeader sx={{height:100}}
                         action={
