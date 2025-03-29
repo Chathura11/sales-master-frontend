@@ -38,10 +38,10 @@ const DashboardRoutes = () => {
 
     const headerStyles = {
         backgroundPosition: 'center',
-        minHeight: '100vh',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
+        minWidth:'1220px'
     }
 
     const {authUser,
