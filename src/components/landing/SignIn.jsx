@@ -35,7 +35,7 @@ const SignIn = () => {
     logout()
   }
   const clickHandlle=()=>{
-    navigate('/home')
+    navigate('/sell')
 }
   return (
     <Stack spacing={2}>
