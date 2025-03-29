@@ -205,7 +205,7 @@ const SideNavigation = ({isLoggedIn,authUser,logOut}) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    SalesMaster
+                    Sales Master
                 </Typography>
                 {/* <Button color="inherit" variant='outlined' size='small' sx={{marginRight:2}} onClick={handleLogout}>{isLoggedIn&&authUser?"Log Out":"Home"}</Button> */}
                 <StyledBadge
