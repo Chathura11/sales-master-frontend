@@ -38,6 +38,7 @@ const DashboardRoutes = () => {
 
     const headerStyles = {
         backgroundPosition: 'center',
+        minHeight:'100vh',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
